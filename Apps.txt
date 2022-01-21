@@ -1,0 +1,37 @@
+Softwares:
+
+IntelliJ
+Jetbrains Toolbox(https://www.jetbrains.com/toolbox-app/)
+start.spring.io
+https://www.postgresql.org/download/windows/
+
+
+HTML & CSS:
+
+https://codepen.io/emreberber/pen/oeREoZ
+
+
+POSTGRES DB SETUP:
+
+CREATE TABLE train_data
+(
+    s1 numeric(12,6),
+    s2 numeric(12,6),
+    s3 numeric(12,6),
+    s4 numeric(12,6),
+    load integer,
+    failure boolean
+)
+
+CREATE TABLE users
+(
+    username text,
+	password text
+)
+
+insert into users_list(username,password) values ('admin','admin');
+
+COPY train_data
+FROM 'C:\Users\dpk08\OneDrive\Desktop\SCS_Project\Dataset\Kaggle Short\Merged_CSV.csv'
+DELIMITER ','
+CSV HEADER;

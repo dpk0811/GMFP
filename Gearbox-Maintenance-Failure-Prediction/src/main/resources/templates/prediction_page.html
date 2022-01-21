@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <title>Gearbox Maintenance Failure Prediction</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <script>
+    // $(function () {
+    //   window.setInterval(function () {
+    //     updateSensorData();
+    //   }, 4000)
+
+    //   function updateSensorData() {
+    //     $.ajax({
+    //       url: "/getData",
+    //       type: "POST",
+    //       dataType: "json",
+    //       success:
+    //         function (data) {
+    //           $(tds1).replaceWith(data[0].s1),
+    //             $(tds2).replaceWith(data[0].s2),
+    //             $(tds3).replaceWith(data[0].s3),
+    //             $(tds4).replaceWith(data[0].s4),
+    //             $(tdload).replaceWith(data[0].load)
+    //         }
+    //     });
+    //   }
+    // });
+
+    var readRows;
+    var i = 1 ;
+    var gStatus = "healthy";
+
+    req =
+      $.ajax({
+        url: "/getData",
+        type: "GET",
+        dataType: "json",
+        success:
+          function (data) {
+            readRows = data;
+          }
+      });
+
+    $(document).ready(function () {
+      $('.button1').on('click', function () {
+        // readRows.forEach(d => {
+        //   $("#tds1").replaceWith(d.s1);
+        //   $("#tds2").replaceWith(d.s2);
+        //   $("#tds3").replaceWith(d.s3);
+        //   $("#tds4").replaceWith(d.s4);
+        //   $("#tdload").replaceWith(d.load);
+        // });
+
+        setInterval(function(){
+          if(readRows[i].s1 < 4)
+          {
+            gStatus = "healthy";
+          }
+          else if(readRows[i].s1 > 4 && readRows[i].s1 < 6)
+          {
+            gStatus = "Due for Maintenance";
+          }
+          else
+          {
+            gStatus = "Failed";
+          }
+          $("#tds1").text(readRows[i].s1);
+          $("#tds2").text(readRows[i].s2);
+          $("#tds3").text(readRows[i].s3);
+          $("#tds4").text(readRows[i].s4);
+          $("#tdload").text(readRows[i++].load);
+          $("#tdstatus").text(gStatus);
+        }, 200);
+
+        // $(tds1).replaceWith(data[0].s1);
+        // $(tds2).replaceWith(data[0].s2);
+        // $(tds3).replaceWith(data[0].s3);
+        // $(tds4).replaceWith(data[0].s4);
+        // $(tdload).replaceWith(data[0].load);
+
+      });
+    });
+    // });
+
+    // });
+
+  </script>
+
+  <header>
+    <h2>Predictive Maintenance And Failure Prediction</h2>
+    <p>This is a simulation application which fetches the sensor readings stored in database and based on applied
+      prediction model will generate an output to the user regarding the status of the Gearbox</p>
+    <p>Three possible outcomes are: Healthy, Broken and Due for Maintenance</p>
+  </header>
+  <section>
+    <nav>
+      <h2>Sensor Readings</h2>
+
+      <table style="width:100%">
+        <tr>
+          <th>Sensor 1</th>
+          <th>Sensor 2</th>
+          <th>Sensor 3</th>
+          <th>Sensor 4</th>
+          <th>Load</th>
+
+        </tr>
+        <tr>
+          <td><div id="tds1"></div></td>
+          <td><div id="tds2"></div></td>
+          <td><div id="tds3"></div></td>
+          <td><div id="tds4"></div></td>
+          <td><div id="tdload"></div></td>
+        </tr>
+      </table>
+      <!-- <h2>s1</h2>
+      <div>
+        <h2 id="tds1"></h2>
+      </div>
+      <h2>s2</h2>
+      <div>
+        <h2 id="tds2"></h2>
+      </div>
+      <h2>s3</h2>
+      <div>
+        <h2 id="tds3"></h2>
+      </div>
+      <h2>s4</h2>
+      <div>
+        <h2 id="tds4"></h2>
+      </div>
+      <h2>Load</h2>
+      <div>
+        <h2 id="tdload"></h2>
+      </div>  -->
+      <h1><button class="button button1" />Start <button class="button button2" />Stop</h1>
+    </nav>
+
+    <article>
+      <h2>Gearbox Status</h2>
+      <table style="width:100%">
+        <tr>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><div id="tdstatus"></div></td>
+        </tr>
+      </table>
+    </article>
+  </section>
+
+  <footer>
+    <p>Footer</p>
+  </footer>
+
+</body>
+
+</html>
