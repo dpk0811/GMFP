@@ -11,86 +11,56 @@
 
 <body>
   <script>
-    // $(function () {
-    //   window.setInterval(function () {
-    //     updateSensorData();
-    //   }, 4000)
-
-    //   function updateSensorData() {
-    //     $.ajax({
-    //       url: "/getData",
-    //       type: "POST",
-    //       dataType: "json",
-    //       success:
-    //         function (data) {
-    //           $(tds1).replaceWith(data[0].s1),
-    //             $(tds2).replaceWith(data[0].s2),
-    //             $(tds3).replaceWith(data[0].s3),
-    //             $(tds4).replaceWith(data[0].s4),
-    //             $(tdload).replaceWith(data[0].load)
-    //         }
-    //     });
-    //   }
-    // });
-
     var readRows;
-    var i = 1 ;
+    var i = 1;
     var gStatus = "healthy";
+    var flag = true;
 
-    req =
-      $.ajax({
-        url: "/getData",
-        type: "GET",
-        dataType: "json",
-        success:
-          function (data) {
-            readRows = data;
-          }
-      });
+    $.ajax({
+      url: "/getData",
+      type: "GET",
+      dataType: "json",
+      success:
+        function (data) {
+          readRows = data;
+        }
+    });
 
     $(document).ready(function () {
       $('.button1').on('click', function () {
-        // readRows.forEach(d => {
-        //   $("#tds1").replaceWith(d.s1);
-        //   $("#tds2").replaceWith(d.s2);
-        //   $("#tds3").replaceWith(d.s3);
-        //   $("#tds4").replaceWith(d.s4);
-        //   $("#tdload").replaceWith(d.load);
-        // });
 
-        setInterval(function(){
-          if(readRows[i].s1 < 4)
-          {
-            gStatus = "healthy";
-          }
-          else if(readRows[i].s1 > 4 && readRows[i].s1 < 6)
-          {
-            gStatus = "Due for Maintenance";
-          }
-          else
-          {
-            gStatus = "Failed";
-          }
+        setInterval(function () {
           $("#tds1").text(readRows[i].s1);
           $("#tds2").text(readRows[i].s2);
           $("#tds3").text(readRows[i].s3);
           $("#tds4").text(readRows[i].s4);
           $("#tdload").text(readRows[i++].load);
+          if (readRows[i].s1 < 4) {
+            if (gStatus != "healthy") {
+              gStatus = "healthy";
+            }
+          }
+          else if (readRows[i].s1 > 4 && readRows[i].s1 < 6) {
+            if (gStatus != "Due for Maintenance") {
+              gStatus = "Due for Maintenance";
+              flag = false;
+            }
+          }
+          else {
+            if (gStatus != "Failed") {
+              gStatus = "Failed";
+              flag = false;
+            }
+          }
           $("#tdstatus").text(gStatus);
-        }, 200);
-
-        // $(tds1).replaceWith(data[0].s1);
-        // $(tds2).replaceWith(data[0].s2);
-        // $(tds3).replaceWith(data[0].s3);
-        // $(tds4).replaceWith(data[0].s4);
-        // $(tdload).replaceWith(data[0].load);
+          if (!flag) {
+            alert(gStatus);
+            flag = true;
+          }
+        }, 5);
 
       });
     });
-    // });
-
-    // });
-
   </script>
 
   <header>
@@ -113,33 +83,23 @@
 
         </tr>
         <tr>
-          <td><div id="tds1"></div></td>
-          <td><div id="tds2"></div></td>
-          <td><div id="tds3"></div></td>
-          <td><div id="tds4"></div></td>
-          <td><div id="tdload"></div></td>
+          <td>
+            <div id="tds1"></div>
+          </td>
+          <td>
+            <div id="tds2"></div>
+          </td>
+          <td>
+            <div id="tds3"></div>
+          </td>
+          <td>
+            <div id="tds4"></div>
+          </td>
+          <td>
+            <div id="tdload"></div>
+          </td>
         </tr>
       </table>
-      <!-- <h2>s1</h2>
-      <div>
-        <h2 id="tds1"></h2>
-      </div>
-      <h2>s2</h2>
-      <div>
-        <h2 id="tds2"></h2>
-      </div>
-      <h2>s3</h2>
-      <div>
-        <h2 id="tds3"></h2>
-      </div>
-      <h2>s4</h2>
-      <div>
-        <h2 id="tds4"></h2>
-      </div>
-      <h2>Load</h2>
-      <div>
-        <h2 id="tdload"></h2>
-      </div>  -->
       <h1><button class="button button1" />Start <button class="button button2" />Stop</h1>
     </nav>
 
@@ -150,7 +110,9 @@
           <th>Status</th>
         </tr>
         <tr>
-          <td><div id="tdstatus"></div></td>
+          <td>
+            <div id="tdstatus"></div>
+          </td>
         </tr>
       </table>
     </article>
