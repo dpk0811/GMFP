@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
+    <link rel="stylesheet" href="css/style.css">
+</script>
 </head>
 <body>
-<div class="">
-<h1>Welcome to Gearbox Maintenance & Failure Prediction</h1>
+<div class="form" style="width:850px; height:350px; display: flex; justify-content: center;">
+    <form method="get" align="center">
+        <h2>Welcome to Gearbox Maintenance & Failure Prediction</h2>
+        <div class="input-box">
+            <input type="submit" name="login" value="Login" formaction="/login">
+        </div>
+        <div class="input-box">
+            <input type="submit" name="register" value="Register Now!" formaction="/register">
+        </div>
+    </form>
 </div>
-<a href="/register">Navigate to registration page</a>
-<a href="/login">Navigate to login page</a>
 </body>
 </html>
