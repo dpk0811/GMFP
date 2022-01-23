@@ -1,0 +1,81 @@
+<head>
+  <title>Historical Logs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+</head>
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+
+<table  cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Sensor 1</th>
+      <th>Sensor 2</th>
+      <th >Sensor 3</th>
+      <th>Sensor 4</th>
+      <th>Load</th>
+      <th>Gearbox status</th>
+      <th>DateTime</th>
+    </tr>
+  </thead>
+  <tbody id ="dtBasicExample"></tbody>
+</table>
+
+<script>
+	var myArray = []
+	
+
+	$.ajax({
+		method:'GET',
+		url:'/historicallogs',
+		dataType: "json",
+        success:
+          function (data) {
+            myArray = data; 
+			buildTable(myArray)
+			console.log(myArray)
+		}
+	});
+
+
+
+	function buildTable(data){
+		var table = document.getElementById('dtBasicExample')
+
+		for (var i = data.length-1; i >=0; i--){
+			var row = `<tr>
+							<td>${data[i].s1}</td>
+							<td>${data[i].s2}</td>
+							<td>${data[i].s3}</td>
+              <td>${data[i].s4}</td>
+              <td>${data[i].load}</td>
+              <td>${data[i].status}</td>
+              <td>${data[i].datetime}</td>
+					  </tr>`
+			table.innerHTML += row
+
+
+		}
+	}
+
+</script>
+
+</html>
