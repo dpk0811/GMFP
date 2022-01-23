@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HistoricalLogsController {
+public class HistoricalLogsRestController {
     @Autowired
     private final HistoricalLogsService historicalLogsService;
 
-    public HistoricalLogsController(HistoricalLogsService historicalLogsService) {
+    public HistoricalLogsRestController(HistoricalLogsService historicalLogsService) {
         this.historicalLogsService = historicalLogsService;
     }
 
