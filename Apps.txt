@@ -35,3 +35,24 @@ COPY train_data
 FROM 'C:\Users\dpk08\OneDrive\Desktop\SCS_Project\Dataset\Kaggle Short\Merged_CSV.csv'
 DELIMITER ','
 CSV HEADER;
+
+
+CREATE TABLE historical_data
+(
+    iD integer,
+    s1 numeric(12,6),
+    s2 numeric(12,6),
+    s3 numeric(12,6),
+    s4 numeric(12,6),
+    load integer,
+    status string
+)
+
+INSERT INTO  historical_data values
+    (1.5,2.3,3.3,4,60,'healthy','23-01-2022');
+
+    INSERT INTO  historical_data values
+    (1.5,2.3,3.3,4,60,'healthy','23-01-2022');
+
+    INSERT INTO  historical_data values
+    (9,7.5,2.3,3.3,4.4,60,'failed','20-01-2022');

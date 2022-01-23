@@ -1,20 +1,210 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
   <title>Gearbox Maintenance Failure Prediction</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- <link rel="stylesheet" href="css/prediction_page.css"> -->
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <!-- <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Style the header */
+    header {
+      background-color: #666;
+      padding: 40px;
+      text-align: center;
+      font-size: 50px;
+      color: white;
+    }
+
+    /* Create two columns/boxes that floats next to each other */
+    nav {
+      float: left;
+      width: 50%;
+      height: 750px;
+      background: #ccc;
+      padding: 20px;
+    }
+
+    article {
+      float: left;
+      padding: 60px;
+      width: 50%;
+      background-color: #f1f1f1;
+      height: 750px;
+    }
+
+    table,
+    th,
+    td {
+      padding: 1em;
+      /* border: 1px solid black; */
+      border-collapse: collapse;
+    }
+
+    .status {
+      float: left;
+      padding: 60px;
+      width: 50%;
+      background-color: #f1f1f1;
+      height: 80px;
+    }
+  </style> -->
+  <style>
+    body {
+      background-image: url(https://f.cl.ly/items/2K0P3z2y3X3c052f2B3Y/Image%202013.04.30%2021%3A28%3A02.png);
+    }
+
+    /* #traffic-light {
+      position: absolute;
+      display: block;
+      left: 50%;
+      top: 50%;
+      margin-left: -60px;
+      margin-top: -160px;
+      background-color: #333;
+      width: 120px;
+      height: 320px;
+      border-radius: 30px;
+    } */
+
+    header {
+      background-color: rgb(18, 129, 120);
+      padding: 20px;
+      text-align: center;
+      font-size: 50px;
+      color: white;
+    }
+
+    table th {
+      table-layout: fixed;
+      width: auto !important;
+    }
+
+    input {
+      appearance: none;
+      position: relative;
+      left: 50%;
+      width: 60px;
+      height: 60px;
+      margin-top: 10px;
+      margin-left: -20px;
+      background-color: grey;
+      vertical-align: middle;
+      border-radius: 100%;
+      display: block;
+    }
+
+    input#color1 {
+      background-color: #FF0000;
+    }
+
+    input#color1:hover {
+      animation: blink1 1.1s step-end infinite;
+    }
+
+    input#color1:checked {
+      background-color: #FF0000;
+      box-shadow: 0 0 6em #ff3333;
+    }
+
+    input#color2 {
+      background-color: #e2de00;
+    }
+
+    input#color2:hover {
+      animation: blink2 1s step-end infinite;
+    }
+
+    input#color2:checked {
+      background-color: #FFFF00;
+      box-shadow: 0 0 6em #ffff33;
+    }
+
+    input#color3 {
+      background-color: #00FF00;
+    }
+
+    input#color3:hover {
+      animation: blink3 1s step-end infinite;
+    }
+
+    input#color3:checked {
+      background-color: #00FF00;
+      box-shadow: 0 0 6em #33ff33;
+    }
+
+    @keyframes blink1 {
+      0% {
+        background-color: #FF0000;
+        box-shadow: 0 0 6em #ff3333;
+      }
+
+      50% {
+        background-color: #b30000;
+        box-shadow: 0 0 0em transparent;
+      }
+    }
+
+    @keyframes blink2 {
+      0% {
+        background-color: #FFFF00;
+        box-shadow: 0 0 6em #ffff33;
+      }
+
+      50% {
+        background-color: #b2b300;
+        box-shadow: 0 0 0em transparent;
+      }
+    }
+
+    @keyframes blink3 {
+      0% {
+        background-color: #00FF00;
+        box-shadow: 0 0 6em #33ff33;
+      }
+
+      50% {
+        background-color: #00b300;
+        box-shadow: 0 0 0em transparent;
+      }
+    }
+
+    * {
+      user-select: none;
+      outline: none;
+    }
+  </style>
 </head>
 
 <body>
   <script>
     var readRows;
     var i = 1;
-    var gStatus = "healthy";
+    var gStatusHeader;
+    var gStatus = "Healthy";
+    var gStatusMessage;
     var flag = true;
+    var setIntervalID;
 
     $.ajax({
       url: "/getData",
@@ -27,100 +217,217 @@
     });
 
     $(document).ready(function () {
-      $('.button1').on('click', function () {
+      $('#button1').on('click', function () {
 
-        setInterval(function () {
-          $("#tds1").text(readRows[i].s1);
-          $("#tds2").text(readRows[i].s2);
-          $("#tds3").text(readRows[i].s3);
-          $("#tds4").text(readRows[i].s4);
-          $("#tdload").text(readRows[i++].load);
-          if (readRows[i].s1 < 4) {
-            if (gStatus != "healthy") {
-              gStatus = "healthy";
-            }
-          }
-          else if (readRows[i].s1 > 4 && readRows[i].s1 < 6) {
-            if (gStatus != "Due for Maintenance") {
-              gStatus = "Due for Maintenance";
-              flag = false;
-            }
-          }
-          else {
-            if (gStatus != "Failed") {
-              gStatus = "Failed";
-              flag = false;
-            }
-          }
-          $("#tdstatus").text(gStatus);
-          if (!flag) {
-            alert(gStatus);
-            flag = true;
-          }
-        }, 5);
+        start();
+        $.fn.flashUnlimited = function () { $(this).fadeTo('medium', 0.3, function () { $(this).fadeTo('medium', 1.0, $(this).flashUnlimited); }); }
+        function showModal(statusHeader, status, statusMessage) {
+          var myModal = $('#myModal');
+          myModal.find('.modal-title').text(statusHeader);
+          myModal.find('.modal-body').text(statusMessage);
+          myModal.modal('show');
+        };
 
+        $('#myModal .agree-button').click(function () {
+          $('#myModal').modal('hide');
+          i = 1;
+          start();
+        });
+
+        $('#myModal .ignore-button').click(function () {
+          $('#myModal').modal('hide');
+          start();
+        });
+
+        function start() {
+          setIntervalID = setInterval(function () {
+            if (i < Object.keys(readRows).length - 1) {
+              $("#tds1").text(readRows[i].s1);
+              $("#tds2").text(readRows[i].s2);
+              $("#tds3").text(readRows[i].s3);
+              $("#tds4").text(readRows[i].s4);
+              $("#tdload").text(readRows[i++].load);
+              if (readRows[i].s1 < 4.98) {
+                if (gStatus != "Healthy") {
+                  $("#color3").flashUnlimited();
+                  $("#color2").stop(true).fadeTo(200, 1);
+                  $("#color1").stop(true).fadeTo(200, 1);
+                  gStatus = "Healthy";
+                }
+              }
+              else if (readRows[i].s1 > 4.98 && readRows[i].s1 < 6.22) {
+                if (gStatus != "Due for Maintenance") {
+                  $("#color2").flashUnlimited();
+                  $("#color3").stop(true).fadeTo(200, 1);
+                  $("#color1").stop(true).fadeTo(200, 1);
+                  gStatusHeader = "Warning!"
+                  gStatus = "Due for Maintenance";
+                  gStatusMessage = "Your vehicle's gearbox is due for maintenance. Please visit the nearest worskshop for repairs!"
+                  flag = false;
+                }
+              }
+              else {
+                if (gStatus != "Failed") {
+                  $("#color1").flashUnlimited();
+                  $("#color2").stop(true).fadeTo(200, 1);
+                  $("#color3").stop(true).fadeTo(200, 1);
+                  gStatusHeader = "Error!"
+                  gStatus = "Failed";
+                  gStatusMessage = "Your vehicle's gearbox has failed. Please visit the nearest workshop for replacement!"
+                  flag = false;
+                }
+              }
+              $("#tdstatus").text(gStatus);
+              if (!flag) {
+                //alert(gStatus);
+                clearInterval(setIntervalID);
+                showModal(gStatusHeader, gStatus, gStatusMessage);
+                flag = true;
+              }
+            }
+            else {
+              clearInterval(setIntervalID);
+            }
+          }, 5);
+        }
       });
+
+      $('#button2').on('click', function () {
+        clearInterval(setIntervalID);
+      });
+
     });
   </script>
 
   <header>
-    <h2>Predictive Maintenance And Failure Prediction</h2>
-    <p>This is a simulation application which fetches the sensor readings stored in database and based on applied
-      prediction model will generate an output to the user regarding the status of the Gearbox</p>
-    <p>Three possible outcomes are: Healthy, Broken and Due for Maintenance</p>
+    <h2>Gearbox Maintenance And Failure Prediction</h2>
   </header>
-  <section>
-    <nav>
-      <h2>Sensor Readings</h2>
+  <br>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-8">
+        <h2>Sensor Readings</h2>
+        <br>
 
-      <table style="width:100%">
-        <tr>
-          <th>Sensor 1</th>
-          <th>Sensor 2</th>
-          <th>Sensor 3</th>
-          <th>Sensor 4</th>
-          <th>Load</th>
+        <table class="table table-sm table-striped">
 
-        </tr>
-        <tr>
-          <td>
-            <div id="tds1"></div>
-          </td>
-          <td>
-            <div id="tds2"></div>
-          </td>
-          <td>
-            <div id="tds3"></div>
-          </td>
-          <td>
-            <div id="tds4"></div>
-          </td>
-          <td>
-            <div id="tdload"></div>
-          </td>
-        </tr>
-      </table>
-      <h1><button class="button button1" />Start <button class="button button2" />Stop</h1>
-    </nav>
+          <thead>
+            <tr>
+              <th style="width: 10%" scope="col">Sensors</th>
+              <th style="width: 10%" scope="col">Values</th>
+              <th style="width: 10%" scope="col">Graphs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Sensor 1</th>
+              <td>
+                <div id="tds1"></div>
+              </td>
+              <td>image</td>
+            </tr>
+            <tr>
+              <th scope="row">Sensor 2</th>
+              <td>
+                <div id="tds2"></div>
+              </td>
+              <td>image</td>
+            </tr>
+            <tr>
+              <th scope="row">Sensor 3</th>
+              <td>
+                <div id="tds3"></div>
+              </td>
+              <td>image</td>
+            </tr>
+            <tr>
+              <th scope="row">Sensor 4</th>
+              <td>
+                <div id="tds4"></div>
+              </td>
+              <td>image</td>
+            </tr>
+            <tr>
+              <th scope="row">Load</th>
+              <td>
+                <div id="tdload"></div>
+              </td>
+              <td>image</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <button id="button1" type="button" class="btn btn-success btn-lg btn-group-toggle">Start</button>
+        <button id="button2" type="button" class="btn btn-danger btn-lg btn-group-toggle">Stop</button>
+      </div>
 
-    <article>
-      <h2>Gearbox Status</h2>
-      <table style="width:100%">
-        <tr>
-          <th>Status</th>
-        </tr>
-        <tr>
-          <td>
-            <div id="tdstatus"></div>
-          </td>
-        </tr>
-      </table>
-    </article>
-  </section>
+      <div class="col-lg-4">
+        <h2>Gearbox Status</h2>
+        <br>
+        <container>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Indicator</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr scope="row">
+                <td>
+                  <div id="tdstatus"></div>
+                </td>
+                <td>
+                  <input type="radio" name="traffic-light-color" id="color1" value="color1" />
+                </td>
+              </tr>
+              <tr scope="row">
+                <td>
+                </td>
+                <td>
+                  <input type="radio" name="traffic-light-color" id="color2" value="color2" />
+                </td>
+              </tr>
+              <tr scope="row">
+                <td>
+                </td>
+                <td>
+                  <input type="radio" name="traffic-light-color" id="color3" value="color3" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </container>
+      </div>
 
-  <footer>
-    <p>Footer</p>
-  </footer>
+      <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+              <p></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger ignore-button" data-dismiss="modal">Ignore</button>
+              <button type="button" class="btn btn-success agree-button">Okay!</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- <div class="col-lg-3">
+        <h2></h2>
+        <br><br><br><br><br>
+          <input type="radio" name="traffic-light-color" id="color1" value="color1" />
+          <input type="radio" name="traffic-light-color" id="color2" value="color2" />
+          <input type="radio" name="traffic-light-color" id="color3" value="color3" />
+      </div> -->
+    </div>
+  </div>
 
 </body>
 
