@@ -18,6 +18,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- <style>
     * {
       box-sizing: border-box;
@@ -201,10 +203,21 @@
     var readRows;
     var i = 1;
     var gStatusHeader;
-    var gStatus = "Healthy";
+    var gStatus = "";
     var gStatusMessage;
     var flag = true;
     var setIntervalID;
+    var chartS1;
+    var dataS1 = [];
+    var chartS2;
+    var dataS2 = [];
+    var chartS3;
+    var dataS3 = [];
+    var chartS4;
+    var dataS4 = [];
+    var chartLoad;
+    var dataLoad = [];
+    var flagsNotCreated = true;
 
     $.ajax({
       url: "/getData",
@@ -218,6 +231,154 @@
 
     $(document).ready(function () {
       $('#button1').on('click', function () {
+
+        function createGraphs() {
+          flagsNotCreated = false;
+          const canvasS1 = document.getElementById("chartS1");
+          const canvasS2 = document.getElementById("chartS2");
+          const canvasS3 = document.getElementById("chartS3");
+          const canvasS4 = document.getElementById("chartS4");
+          const canvasLoad = document.getElementById("chartLoad");
+          chartS1 = new Chart(canvasS1, {
+            type: 'line',
+            data: {
+              labels: [' '],
+              datasets: [{
+                label: 'S1',
+                data: [],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)'
+              }]
+            },
+            // fill: false,
+            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            // borderColor: 'rgbs(255, 99, 132, 1)',
+            // borderWidth: 1,
+            options: {
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function (value, index, ticks) {
+                      return value + ' Hz';
+                    }
+                  }
+                }
+              }
+            }
+          });
+          chartS2 = new Chart(canvasS2, {
+            type: 'line',
+            data: {
+              labels: [' '],
+              datasets: [{
+                label: 'S2',
+                data: [],
+                backgroundColor: 'rgba(99, 255, 132, 0.2)',
+                borderColor: 'rgba(99, 255, 132, 1)'
+              }]
+            },
+            // fill: false,
+            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            // borderColor: 'rgbs(255, 99, 132, 1)',
+            // borderWidth: 1,
+            options: {
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function (value, index, ticks) {
+                      return value + ' Hz';
+                    }
+                  }
+                }
+              }
+            }
+          });
+          chartS3 = new Chart(canvasS3, {
+            type: 'line',
+            data: {
+              labels: [' '],
+              datasets: [{
+                label: 'S3',
+                data: [],
+                backgroundColor: 'rgba(132, 99, 255, 0.2)',
+                borderColor: 'rgba(132, 99, 255, 1)'
+              }]
+            },
+            // fill: false,
+            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            // borderColor: 'rgbs(255, 99, 132, 1)',
+            // borderWidth: 1,
+            options: {
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function (value, index, ticks) {
+                      return value + ' Hz';
+                    }
+                  }
+                }
+              }
+            }
+          });
+          chartS4 = new Chart(canvasS4, {
+            type: 'line',
+            data: {
+              labels: [' '],
+              datasets: [{
+                label: 'S4',
+                data: [],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)'
+              }]
+            },
+            // fill: false,
+            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            // borderColor: 'rgbs(255, 99, 132, 1)',
+            // borderWidth: 1,
+            options: {
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function (value, index, ticks) {
+                      return value + ' Hz';
+                    }
+                  }
+                }
+              }
+            }
+          });
+          // chartLoad = new Chart(canvasLoad, {
+          //   type: 'line',
+          //   data: {
+          //     labels: [' '],
+          //     datasets: [{
+          //       label: 'Load',
+          //       data: [],
+          //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          //       borderColor: 'rgba(255, 99, 132, 1)'
+          //     }]
+          //   },
+          //   // fill: false,
+          //   // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          //   // borderColor: 'rgbs(255, 99, 132, 1)',
+          //   // borderWidth: 1,
+          //   options: {
+          //     scales: {
+          //       y: {
+          //         ticks: {
+          //           callback: function (value, index, ticks) {
+          //             return value + ' Hz';
+          //           }
+          //         }
+          //       }
+          //     }
+          //   }
+          // });
+        }
+
+        if (flagsNotCreated) {
+          createGraphs();
+        }
 
         start();
         $.fn.flashUnlimited = function () { $(this).fadeTo('medium', 0.3, function () { $(this).fadeTo('medium', 1.0, $(this).flashUnlimited); }); }
@@ -243,10 +404,31 @@
           setIntervalID = setInterval(function () {
             if (i < Object.keys(readRows).length - 1) {
               $("#tds1").text(readRows[i].s1);
+              chartS1.data.labels.push(' ');
+              chartS1.data.datasets[0].data.push(readRows[i].s1);
+              chartS1.update();
+
               $("#tds2").text(readRows[i].s2);
+              chartS2.data.labels.push(' ');
+              chartS2.data.datasets[0].data.push(readRows[i].s2);
+              chartS2.update();
+
               $("#tds3").text(readRows[i].s3);
+              chartS3.data.labels.push(' ');
+              chartS3.data.datasets[0].data.push(readRows[i].s3);
+              chartS3.update();
+
               $("#tds4").text(readRows[i].s4);
+              chartS4.data.labels.push(' ');
+              chartS4.data.datasets[0].data.push(readRows[i].s4);
+              chartS4.update();
+
               $("#tdload").text(readRows[i++].load);
+              // chartLoad.data.labels.push(' ');
+              // chartLoad.data.datasets[0].data.push(readRows[i].load);
+              // chartLoad.update();
+
+
               if (readRows[i].s1 < 4.98) {
                 if (gStatus != "Healthy") {
                   $("#color3").flashUnlimited();
@@ -324,35 +506,40 @@
               <td>
                 <div id="tds1"></div>
               </td>
-              <td>image</td>
+              <td>
+              </td>
             </tr>
             <tr>
               <th scope="row">Sensor 2</th>
               <td>
                 <div id="tds2"></div>
               </td>
-              <td>image</td>
+              <td>
+              </td>
             </tr>
             <tr>
               <th scope="row">Sensor 3</th>
               <td>
                 <div id="tds3"></div>
               </td>
-              <td>image</td>
+              <td>
+              </td>
             </tr>
             <tr>
               <th scope="row">Sensor 4</th>
               <td>
                 <div id="tds4"></div>
               </td>
-              <td>image</td>
+              <td>
+              </td>
             </tr>
             <tr>
               <th scope="row">Load</th>
               <td>
                 <div id="tdload"></div>
               </td>
-              <td>image</td>
+              <td>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -425,6 +612,25 @@
           <input type="radio" name="traffic-light-color" id="color1" value="color1" />
           <input type="radio" name="traffic-light-color" id="color2" value="color2" />
           <input type="radio" name="traffic-light-color" id="color3" value="color3" />
+      </div> -->
+      <br>
+    </div>
+    <div class="row">
+      <h2>Graphs</h2>
+      <div class="col-md-6">
+        <canvas id="chartS1" width="400" height="400"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="chartS2" width="400" height="400"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="chartS3" width="400" height="400"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="chartS4" width="400" height="400"></canvas>
+      </div>
+      <!-- <div class="col-md-4">
+        <canvas id="chartLoad" width="300" height="300"></canvas>
       </div> -->
     </div>
   </div>
