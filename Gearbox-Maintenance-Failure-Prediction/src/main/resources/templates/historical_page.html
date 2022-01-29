@@ -3,65 +3,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+  <link rel="stylesheet" href="css/historical_page.css">
 
 </head>
-<style>
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-  </style>
-
-<table  cellspacing="0" width="100%">
-  <thead>
-    <tr>
-      <th>Sensor 1</th>
-      <th>Sensor 2</th>
-      <th >Sensor 3</th>
-      <th>Sensor 4</th>
-      <th>Load</th>
-      <th>Gearbox status</th>
-      <th>DateTime</th>
-    </tr>
-  </thead>
-  <tbody id ="dtBasicExample"></tbody>
-</table>
-
 <script>
-	var myArray = []
-	
+  $(window).on("load resize ", function () {
+    var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+    $('.tbl-header').css({ 'padding-right': scrollWidth });
+  }).resize();
 
-	$.ajax({
-		method:'GET',
-		url:'/historicallogs',
-		dataType: "json",
-        success:
-          function (data) {
-            myArray = data; 
-			buildTable(myArray)
-			console.log(myArray)
-		}
-	});
+</script>
+<section>
+  <h1>Gearbox Maintenance And Failure Prediction <br>Historical Logs</h1>
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Sensor 1</th>
+          <th>Sensor 2</th>
+          <th>Sensor 3</th>
+          <th>Sensor 4</th>
+          <th>Load</th>
+          <th>Gearbox status</th>
+          <th>DateTime</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table id="table" cellpadding="0" cellspacing="0" border="0">
+      <tbody>
 
 
 
-	function buildTable(data){
-		var table = document.getElementById('dtBasicExample')
+        <script>
+          var myArray = []
 
-		for (var i = data.length-1; i >=0; i--){
-			var row = `<tr>
+
+          $.ajax({
+            method: 'GET',
+            url: '/historicallogs',
+            dataType: "json",
+            success:
+              function (data) {
+                myArray = data;
+                buildTable(myArray)
+                console.log(myArray)
+              }
+          });
+
+
+
+          function buildTable(data) {
+            var table = document.getElementById('table')
+
+            for (var i = data.length - 1; i >= 0; i--) {
+              var row = `<tr>
 							<td>${data[i].s1}</td>
 							<td>${data[i].s2}</td>
 							<td>${data[i].s3}</td>
@@ -70,12 +67,17 @@
               <td>${data[i].status}</td>
               <td>${data[i].datetime}</td>
 					  </tr>`
-			table.innerHTML += row
+              table.innerHTML += row
 
 
-		}
-	}
+            }
+          }
 
-</script>
+        </script>
+      </tbody>
+    </table>
+  </div>
+  <button class="button" style="vertical-align:middle"><a style="text-decoration:none" href="\"><span>Go
+        Home</span></a></button>
 
-</html>
+  </html>
