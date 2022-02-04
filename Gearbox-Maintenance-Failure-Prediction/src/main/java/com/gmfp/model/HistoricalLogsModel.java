@@ -10,7 +10,6 @@ import javax.persistence.Table;
 public class HistoricalLogsModel {
 
     @Id
-    Integer iD;
     Double s1;
     Double s2;
     Double s3;
@@ -18,13 +17,6 @@ public class HistoricalLogsModel {
     Integer load;
     String status;
     String datetime;
-    
-    public Integer getiD() {
-        return iD;
-    }
-    public void setiD(Integer iD) {
-        this.iD = iD;
-    }
     public Double getS1() {
         return s1;
     }
@@ -67,14 +59,11 @@ public class HistoricalLogsModel {
     public void setDatetime(String datetime) {
         this.datetime = datetime;
     }
-
-    
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((datetime == null) ? 0 : datetime.hashCode());
-        result = prime * result + ((iD == null) ? 0 : iD.hashCode());
         result = prime * result + ((load == null) ? 0 : load.hashCode());
         result = prime * result + ((s1 == null) ? 0 : s1.hashCode());
         result = prime * result + ((s2 == null) ? 0 : s2.hashCode());
@@ -96,11 +85,6 @@ public class HistoricalLogsModel {
             if (other.datetime != null)
                 return false;
         } else if (!datetime.equals(other.datetime))
-            return false;
-        if (iD == null) {
-            if (other.iD != null)
-                return false;
-        } else if (!iD.equals(other.iD))
             return false;
         if (load == null) {
             if (other.load != null)
@@ -136,9 +120,10 @@ public class HistoricalLogsModel {
     }
     @Override
     public String toString() {
-        return "HistoricalLogsModel [datetime=" + datetime + ", iD=" + iD + ", load=" + load + ", s1=" + s1 + ", s2="
-                + s2 + ", s3=" + s3 + ", s4=" + s4 + ", status=" + status + "]";
+        return "HistoricalLogsModel [datetime=" + datetime + ", load=" + load + ", s1=" + s1 + ", s2=" + s2 + ", s3="
+                + s3 + ", s4=" + s4 + ", status=" + status + "]";
     }
+    
   
 }
 

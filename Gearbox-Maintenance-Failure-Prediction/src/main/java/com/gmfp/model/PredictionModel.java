@@ -10,59 +10,93 @@ import java.util.Objects;
 public class PredictionModel {
 
     @Id
-    Integer iD;
     Double s1;
     Double s2;
     Double s3;
     Double s4;
     Integer load;
-
-    public Integer getiD() {
-        return iD;
-    }
-
+    
     public Double getS1() {
         return s1;
     }
-
+    public void setS1(Double s1) {
+        this.s1 = s1;
+    }
     public Double getS2() {
         return s2;
     }
-
+    public void setS2(Double s2) {
+        this.s2 = s2;
+    }
     public Double getS3() {
         return s3;
     }
-
+    public void setS3(Double s3) {
+        this.s3 = s3;
+    }
     public Double getS4() {
         return s4;
     }
-
+    public void setS4(Double s4) {
+        this.s4 = s4;
+    }
     public Integer getLoad() {
         return load;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PredictionModel that = (PredictionModel) o;
-        return Objects.equals(iD, that.iD) && Objects.equals(s1, that.s1) && Objects.equals(s2, that.s2) && Objects.equals(s3, that.s3) && Objects.equals(s4, that.s4) && Objects.equals(load, that.load);
+    public void setLoad(Integer load) {
+        this.load = load;
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(iD, s1, s2, s3, s4, load);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((load == null) ? 0 : load.hashCode());
+        result = prime * result + ((s1 == null) ? 0 : s1.hashCode());
+        result = prime * result + ((s2 == null) ? 0 : s2.hashCode());
+        result = prime * result + ((s3 == null) ? 0 : s3.hashCode());
+        result = prime * result + ((s4 == null) ? 0 : s4.hashCode());
+        return result;
     }
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PredictionModel other = (PredictionModel) obj;
+        if (load == null) {
+            if (other.load != null)
+                return false;
+        } else if (!load.equals(other.load))
+            return false;
+        if (s1 == null) {
+            if (other.s1 != null)
+                return false;
+        } else if (!s1.equals(other.s1))
+            return false;
+        if (s2 == null) {
+            if (other.s2 != null)
+                return false;
+        } else if (!s2.equals(other.s2))
+            return false;
+        if (s3 == null) {
+            if (other.s3 != null)
+                return false;
+        } else if (!s3.equals(other.s3))
+            return false;
+        if (s4 == null) {
+            if (other.s4 != null)
+                return false;
+        } else if (!s4.equals(other.s4))
+            return false;
+        return true;
+    }
     @Override
     public String toString() {
-        return "PredictionModel{" +
-                "iD=" + iD +
-                ", s1=" + s1 +
-                ", s2=" + s2 +
-                ", s3=" + s3 +
-                ", s4=" + s4 +
-                ", load=" + load +
-                '}';
+        return "PredictionModel [load=" + load + ", s1=" + s1 + ", s2=" + s2 + ", s3=" + s3 + ", s4=" + s4 + "]";
     }
+
+    
 }

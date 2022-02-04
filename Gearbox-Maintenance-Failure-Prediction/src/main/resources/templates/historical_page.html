@@ -7,22 +7,22 @@
 
 </head>
 <script>
-  $(window).on("load resize ", function () {
-    var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-    $('.tbl-header').css({ 'padding-right': scrollWidth });
-  }).resize();
+  // $(window).on("load resize ", function () {
+  //   var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+  //   $('.tbl-header').css({ 'padding-right': scrollWidth });
+  // }).resize();
 
 </script>
 <section>
-  <h1>Gearbox Maintenance And Failure Prediction <br>Historical Logs</h1>
+  <h1>Historical Logs</h1>
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
       <thead>
         <tr>
-          <th>Sensor 1</th>
-          <th>Sensor 2</th>
-          <th>Sensor 3</th>
-          <th>Sensor 4</th>
+          <th>Sensor 1 (Unit: Hz)</th>
+          <th>Sensor 2 (Unit: Hz)</th>
+          <th>Sensor 3 (Unit: Hz)</th>
+          <th>Sensor 4 (Unit: Hz)</th>
           <th>Load</th>
           <th>Gearbox status</th>
           <th>DateTime</th>
@@ -77,7 +77,6 @@
       </tbody>
     </table>
   </div>
-  <button class="button" style="vertical-align:middle"><a style="text-decoration:none" href="\"><span>Go
-        Home</span></a></button>
-
+  <button class="button" style="vertical-align:middle"><a style="text-decoration:none" href="\"><span>Home</span></a></button>
+  <button class="button" style="vertical-align:middle"><a style="text-decoration:none" href="\prediction"><span>GMFP</span></a></button>
   </html>

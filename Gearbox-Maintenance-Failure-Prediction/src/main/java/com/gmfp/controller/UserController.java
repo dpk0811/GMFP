@@ -55,7 +55,6 @@ public class UserController {
         if(authenticated != null)
         {
             model.addAttribute("userLogin", authenticated.getUsername());
-            //return "personal_page";
             return "redirect:/prediction";
         }
         else

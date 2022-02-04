@@ -230,113 +230,52 @@
     });
 
     $(document).ready(function () {
+      $('#button3').on('click', function () {
+        location.href = '/historical';
+      });
+
       $('#button1').on('click', function () {
 
         function createGraphs() {
           flagsNotCreated = false;
           const canvasS1 = document.getElementById("chartS1");
-          const canvasS2 = document.getElementById("chartS2");
-          const canvasS3 = document.getElementById("chartS3");
-          const canvasS4 = document.getElementById("chartS4");
-          const canvasLoad = document.getElementById("chartLoad");
           chartS1 = new Chart(canvasS1, {
             type: 'line',
             data: {
-              labels: [' '],
+              labels: [],
               datasets: [{
                 label: 'S1',
                 data: [],
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)'
-              }]
-            },
-            // fill: false,
-            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            // borderColor: 'rgbs(255, 99, 132, 1)',
-            // borderWidth: 1,
-            options: {
-              scales: {
-                y: {
-                  ticks: {
-                    callback: function (value, index, ticks) {
-                      return value + ' Hz';
-                    }
-                  }
-                }
-              }
-            }
-          });
-          chartS2 = new Chart(canvasS2, {
-            type: 'line',
-            data: {
-              labels: [' '],
-              datasets: [{
+              },
+              {
                 label: 'S2',
                 data: [],
                 backgroundColor: 'rgba(99, 255, 132, 0.2)',
                 borderColor: 'rgba(99, 255, 132, 1)'
-              }]
-            },
-            // fill: false,
-            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            // borderColor: 'rgbs(255, 99, 132, 1)',
-            // borderWidth: 1,
-            options: {
-              scales: {
-                y: {
-                  ticks: {
-                    callback: function (value, index, ticks) {
-                      return value + ' Hz';
-                    }
-                  }
-                }
-              }
-            }
-          });
-          chartS3 = new Chart(canvasS3, {
-            type: 'line',
-            data: {
-              labels: [' '],
-              datasets: [{
+              },
+              {
                 label: 'S3',
                 data: [],
                 backgroundColor: 'rgba(132, 99, 255, 0.2)',
                 borderColor: 'rgba(132, 99, 255, 1)'
-              }]
-            },
-            // fill: false,
-            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            // borderColor: 'rgbs(255, 99, 132, 1)',
-            // borderWidth: 1,
-            options: {
-              scales: {
-                y: {
-                  ticks: {
-                    callback: function (value, index, ticks) {
-                      return value + ' Hz';
-                    }
-                  }
-                }
-              }
-            }
-          });
-          chartS4 = new Chart(canvasS4, {
-            type: 'line',
-            data: {
-              labels: [' '],
-              datasets: [{
+              },
+              {
                 label: 'S4',
                 data: [],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)'
+                backgroundColor: 'rgba(99, 99, 132, 0.2)',
+                borderColor: 'rgba(99, 99, 132, 1)'
               }]
             },
-            // fill: false,
-            // backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            // borderColor: 'rgbs(255, 99, 132, 1)',
-            // borderWidth: 1,
             options: {
               scales: {
+                beginAtZero: false,
+                x: {
+                  grid: {
+                    display: false
+                  }
+                },
                 y: {
                   ticks: {
                     callback: function (value, index, ticks) {
@@ -347,33 +286,6 @@
               }
             }
           });
-          // chartLoad = new Chart(canvasLoad, {
-          //   type: 'line',
-          //   data: {
-          //     labels: [' '],
-          //     datasets: [{
-          //       label: 'Load',
-          //       data: [],
-          //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          //       borderColor: 'rgba(255, 99, 132, 1)'
-          //     }]
-          //   },
-          //   // fill: false,
-          //   // backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          //   // borderColor: 'rgbs(255, 99, 132, 1)',
-          //   // borderWidth: 1,
-          //   options: {
-          //     scales: {
-          //       y: {
-          //         ticks: {
-          //           callback: function (value, index, ticks) {
-          //             return value + ' Hz';
-          //           }
-          //         }
-          //       }
-          //     }
-          //   }
-          // });
         }
 
         if (flagsNotCreated) {
@@ -402,31 +314,25 @@
 
         function start() {
           setIntervalID = setInterval(function () {
+            chartS1.data.labels.push("");
             if (i < Object.keys(readRows).length - 1) {
               $("#tds1").text(readRows[i].s1);
-              chartS1.data.labels.push(' ');
               chartS1.data.datasets[0].data.push(readRows[i].s1);
-              chartS1.update();
+              //chartS1.update();
 
               $("#tds2").text(readRows[i].s2);
-              chartS2.data.labels.push(' ');
-              chartS2.data.datasets[0].data.push(readRows[i].s2);
-              chartS2.update();
+              chartS1.data.datasets[1].data.push(readRows[i].s2);
+              //chartS1.update();
 
               $("#tds3").text(readRows[i].s3);
-              chartS3.data.labels.push(' ');
-              chartS3.data.datasets[0].data.push(readRows[i].s3);
-              chartS3.update();
+              chartS1.data.datasets[2].data.push(readRows[i].s3);
+              //chartS1.update();
 
               $("#tds4").text(readRows[i].s4);
-              chartS4.data.labels.push(' ');
-              chartS4.data.datasets[0].data.push(readRows[i].s4);
-              chartS4.update();
+              chartS1.data.datasets[3].data.push(readRows[i].s4);
+              chartS1.update();
 
               $("#tdload").text(readRows[i++].load);
-              // chartLoad.data.labels.push(' ');
-              // chartLoad.data.datasets[0].data.push(readRows[i].load);
-              // chartLoad.update();
 
 
               if (readRows[i].s1 < 4.98) {
@@ -435,6 +341,9 @@
                   $("#color2").stop(true).fadeTo(200, 1);
                   $("#color1").stop(true).fadeTo(200, 1);
                   gStatus = "Healthy";
+                  $("#tdstatusDM").text('');
+                  $("#tdstatusF").text('');
+                  $("#tdstatusH").text(gStatus);
                 }
               }
               else if (readRows[i].s1 > 4.98 && readRows[i].s1 < 6.22) {
@@ -444,6 +353,9 @@
                   $("#color1").stop(true).fadeTo(200, 1);
                   gStatusHeader = "Warning!"
                   gStatus = "Due for Maintenance";
+                  $("#tdstatusH").text('');
+                  $("#tdstatusF").text('');
+                  $("#tdstatusDM").text(gStatus);
                   gStatusMessage = "Your vehicle's gearbox is due for maintenance. Please visit the nearest worskshop for repairs!"
                   flag = false;
                 }
@@ -455,13 +367,42 @@
                   $("#color3").stop(true).fadeTo(200, 1);
                   gStatusHeader = "Error!"
                   gStatus = "Failed";
+                  $("#tdstatusH").text('');
+                  $("#tdstatusDM").text('');
+                  $("#tdstatusF").text(gStatus);
                   gStatusMessage = "Your vehicle's gearbox has failed. Please visit the nearest workshop for replacement!"
                   flag = false;
                 }
               }
-              $("#tdstatus").text(gStatus);
+
+              // var today = new Date();
+              // var dd = String(today.getDate()).padStart(2, '0');
+              // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+              // var yyyy = today.getFullYear();
+
+              // today = mm + '/' + dd + '/' + yyyy;
+              // $.ajax({
+              //   type: "POST",
+              //   url: "/addLog",
+              //   contentType: "application/json",
+              //   dataType: "json",
+              //   data: JSON.stringify({
+              //     s1: readRows[i].s1,
+              //     s2: readRows[i].s2,
+              //     s3: readRows[i].s3,
+              //     s4: readRows[i].s4,
+              //     load: readRows[i].load,
+              //     status: gStatus,
+              //     datetime: today
+              //   }),
+              //   success: function (response) {
+              //     console.log("Log added");
+              //   },
+              //   error: function (response) {
+              //     console.log("Error while adding logs");
+              //   }
+              // });
               if (!flag) {
-                //alert(gStatus);
                 clearInterval(setIntervalID);
                 showModal(gStatusHeader, gStatus, gStatusMessage);
                 flag = true;
@@ -470,7 +411,7 @@
             else {
               clearInterval(setIntervalID);
             }
-          }, 5);
+          }, 50);
         }
       });
 
@@ -487,7 +428,7 @@
   <br>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-5">
         <h2>Sensor Readings</h2>
         <br>
 
@@ -495,57 +436,57 @@
 
           <thead>
             <tr>
-              <th style="width: 10%" scope="col">Sensors</th>
-              <th style="width: 10%" scope="col">Values</th>
-              <th style="width: 10%" scope="col">Graphs</th>
+              <th scope="col">Sensors</th>
+              <th scope="col">Values</th>
+              <!-- <th style="width: 10%" scope="col">Graphs</th> -->
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">Sensor 1</th>
+              <th scope="row">Sensor 1 (Unit: Hz)</th>
               <td>
                 <div id="tds1"></div>
               </td>
-              <td>
-              </td>
+              <!-- <td>
+              </td> -->
             </tr>
             <tr>
-              <th scope="row">Sensor 2</th>
+              <th scope="row">Sensor 2 (Unit: Hz)</th>
               <td>
                 <div id="tds2"></div>
               </td>
-              <td>
-              </td>
+              <!-- <td>
+              </td> -->
             </tr>
             <tr>
-              <th scope="row">Sensor 3</th>
+              <th scope="row">Sensor 3 (Unit: Hz)</th>
               <td>
                 <div id="tds3"></div>
               </td>
-              <td>
-              </td>
+              <!-- <td>
+              </td> -->
             </tr>
             <tr>
-              <th scope="row">Sensor 4</th>
+              <th scope="row">Sensor 4 (Unit: Hz)</th>
               <td>
                 <div id="tds4"></div>
               </td>
-              <td>
-              </td>
+              <!-- <td>
+              </td> -->
             </tr>
             <tr>
               <th scope="row">Load</th>
               <td>
                 <div id="tdload"></div>
               </td>
-              <td>
-              </td>
+              <!-- <td>
+              </td> -->
             </tr>
           </tbody>
         </table>
         <br>
-        <button id="button1" type="button" class="btn btn-success btn-lg btn-group-toggle">Start</button>
-        <button id="button2" type="button" class="btn btn-danger btn-lg btn-group-toggle">Stop</button>
+        <!-- <button id="button1" type="button" class="btn btn-success btn-lg btn-group-toggle">Start</button>
+        <button id="button2" type="button" class="btn btn-danger btn-lg btn-group-toggle">Stop</button> -->
       </div>
 
       <div class="col-lg-4">
@@ -562,7 +503,7 @@
             <tbody>
               <tr scope="row">
                 <td>
-                  <div id="tdstatus"></div>
+                  <div id="tdstatusF"></div>
                 </td>
                 <td>
                   <input type="radio" name="traffic-light-color" id="color1" value="color1" />
@@ -570,6 +511,7 @@
               </tr>
               <tr scope="row">
                 <td>
+                  <div id="tdstatusDM"></div>
                 </td>
                 <td>
                   <input type="radio" name="traffic-light-color" id="color2" value="color2" />
@@ -577,6 +519,7 @@
               </tr>
               <tr scope="row">
                 <td>
+                  <div id="tdstatusH"></div>
                 </td>
                 <td>
                   <input type="radio" name="traffic-light-color" id="color3" value="color3" />
@@ -585,6 +528,14 @@
             </tbody>
           </table>
         </container>
+      </div>
+      <div class="col-lg-3">
+        <br><br><br><br><br><br>
+        <button id="button1" type="button" class="btn btn-success btn-lg btn-group-toggle">Start</button>
+        <br><br>
+        <button id="button2" type="button" class="btn btn-danger btn-lg btn-group-toggle">Stop</button>
+        <br><br>
+        <button id="button3" type="button" class="btn btn-info btn-lg btn-group-toggle submit-button">View Logs</button>
       </div>
 
       <div id="myModal" class="modal fade" role="dialog">
@@ -606,21 +557,14 @@
 
         </div>
       </div>
-      <!-- <div class="col-lg-3">
-        <h2></h2>
-        <br><br><br><br><br>
-          <input type="radio" name="traffic-light-color" id="color1" value="color1" />
-          <input type="radio" name="traffic-light-color" id="color2" value="color2" />
-          <input type="radio" name="traffic-light-color" id="color3" value="color3" />
-      </div> -->
-      <br>
+
     </div>
     <div class="row">
       <h2>Graphs</h2>
-      <div class="col-md-6">
-        <canvas id="chartS1" width="400" height="400"></canvas>
+      <div class="col-lg-12">
+        <canvas id="chartS1"></canvas>
       </div>
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <canvas id="chartS2" width="400" height="400"></canvas>
       </div>
       <div class="col-md-6">
@@ -628,9 +572,6 @@
       </div>
       <div class="col-md-6">
         <canvas id="chartS4" width="400" height="400"></canvas>
-      </div>
-      <!-- <div class="col-md-4">
-        <canvas id="chartLoad" width="300" height="300"></canvas>
       </div> -->
     </div>
   </div>

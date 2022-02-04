@@ -24,4 +24,22 @@ public class HistoricalLogsService {
         return historicalLogsModel;
     }
     
+    public HistoricalLogsModel addLog(Double s1, Double s2, Double s3, Double s4, Integer load, String status, String datetime)
+    {
+        if(s1 == null && s2 == null && s3 == null && s4== null && load == null && status == null && datetime == null) {
+            return null;
+        }
+        else
+        {
+            HistoricalLogsModel historicalModel = new HistoricalLogsModel();
+            historicalModel.setS1(s1);
+            historicalModel.setS2(s2);
+            historicalModel.setS3(s3);
+            historicalModel.setS4(s4);
+            historicalModel.setLoad(load);
+            historicalModel.setStatus(status);
+            historicalModel.setDatetime(datetime);
+            return historicalLogsRepository.save(historicalModel);
+        }
+    }
 }
