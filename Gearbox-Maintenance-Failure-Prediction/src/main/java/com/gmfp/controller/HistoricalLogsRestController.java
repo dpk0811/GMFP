@@ -25,5 +25,4 @@ public class HistoricalLogsRestController {
         historicalLogsModel.getS3(),historicalLogsModel.getS4(),historicalLogsModel.getLoad(), historicalLogsModel.getStatus(), historicalLogsModel.getDatetime());
                 return readRow;
     }
-
 }

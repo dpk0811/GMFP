@@ -4,13 +4,10 @@ import com.gmfp.model.HistoricalLogsModel;
 import com.gmfp.service.HistoricalLogsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.ModelAttribute;
-// import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 
@@ -31,10 +28,11 @@ public class HistoricalLogsController {
         return "historical_page";
     }
 
-    @PostMapping("/addLog")
-    public void addLog(HistoricalLogsModel historicalLogsModel)
+    @PostMapping("/addLogs")
+    public HistoricalLogsModel addLog(@RequestParam(value="s1")Double s1, @RequestParam(value="s2")Double s2, @RequestParam(value="s3")Double s3, @RequestParam(value="s4")Double s4,
+    @RequestParam(value="load")Integer load, @RequestParam(value="status")String status, @RequestParam(value="datetime")String datetime) 
     {
-        historicalLogsService.addLog(historicalLogsModel.getS1(), historicalLogsModel.getS2(), historicalLogsModel.getS3(),
-        historicalLogsModel.getS4(), historicalLogsModel.getLoad(), historicalLogsModel.getStatus(), historicalLogsModel.getDatetime());
+        HistoricalLogsModel historicalLogsModel = historicalLogsService.addLog(s1, s2, s3, s4, load, status, datetime);
+        return historicalLogsModel;
     }
 }

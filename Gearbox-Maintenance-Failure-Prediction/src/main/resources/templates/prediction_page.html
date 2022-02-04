@@ -270,7 +270,6 @@
             },
             options: {
               scales: {
-                beginAtZero: false,
                 x: {
                   grid: {
                     display: false
@@ -375,33 +374,33 @@
                 }
               }
 
-              // var today = new Date();
-              // var dd = String(today.getDate()).padStart(2, '0');
-              // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-              // var yyyy = today.getFullYear();
+              var today = new Date();
+              var dd = String(today.getDate()).padStart(2, '0');
+              var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+              var yyyy = today.getFullYear();
 
-              // today = mm + '/' + dd + '/' + yyyy;
-              // $.ajax({
-              //   type: "POST",
-              //   url: "/addLog",
-              //   contentType: "application/json",
-              //   dataType: "json",
-              //   data: JSON.stringify({
-              //     s1: readRows[i].s1,
-              //     s2: readRows[i].s2,
-              //     s3: readRows[i].s3,
-              //     s4: readRows[i].s4,
-              //     load: readRows[i].load,
-              //     status: gStatus,
-              //     datetime: today
-              //   }),
-              //   success: function (response) {
-              //     console.log("Log added");
-              //   },
-              //   error: function (response) {
-              //     console.log("Error while adding logs");
-              //   }
-              // });
+              today = mm + '/' + dd + '/' + yyyy;
+              $.ajax({
+                type: "POST",
+                url: "/addLogs",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                  s1: readRows[i].s1,
+                  s2: readRows[i].s2,
+                  s3: readRows[i].s3,
+                  s4: readRows[i].s4,
+                  load: readRows[i].load,
+                  status: gStatus,
+                  datetime: today
+                }),
+                success: function (response) {
+                  console.log("Log added");
+                },
+                error: function (response) {
+                  console.log("Error while adding logs");
+                }
+              });
               if (!flag) {
                 clearInterval(setIntervalID);
                 showModal(gStatusHeader, gStatus, gStatusMessage);
